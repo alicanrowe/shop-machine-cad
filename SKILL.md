@@ -28,10 +28,13 @@ The loop, per machine:
 5. **Build the machine from real parts.** Replace stand-in boxes with the part makers. Map every buy-list row
    to its parts in `specs/machines/<slug>.json`.
 6. **Check the machine:** `scripts/check_machine.py <slug>`: every buy-list row modelled (or a reason it
-   isn't), every part spec passing, no collisions, nothing floating. Fix the design, not the checker: a pen
-   running through a servo is a real design error.
+   isn't), every part spec passing, no collisions, nothing floating, and every wire, lead and cable going from a
+   real terminal to a real terminal without passing through anything. Fix the design, not the checker: a pen
+   running through a servo, or a lead that stops in mid-air, is a real design error. Model every connector a
+   wire plugs into (a plug on a host machine's cable, a terminal block); "it connects off-model" isn't a reason.
 7. **Render and look** (references/renders.md): studio renders of each state and an exploded view, checked
    against the listing photos and the machine's neighbours on the site. Only passing renders go out.
+   Animations and big jobs go to GarageFarm through the `render-farm` skill (github.com/alicanrowe/render-farm), which uploads and submits without anyone clicking renderBeamer.
 8. **Hand off** to the site (website-publishing skill): renders, the parts table with listing links and
    photos, and the numbers you checked.
 
@@ -43,7 +46,7 @@ The loop, per machine:
 | `listing_sheet.py` | Contact sheet of a listing's photos, to find the drawing |
 | `check_parts.py` | Part vs spec: overall and per-item sizes, palette materials, sources recorded |
 | `look_sheet.py` | Part render beside its listing photo, with the check results |
-| `check_machine.py` | Buy-list coverage, part specs, collisions, floating parts |
+| `check_machine.py` | Buy-list coverage, part specs, collisions, floating parts, wire ends and wire clashes (`--wires-only` for a quick re-run) |
 
 The kit paths default to your shop-bot kit (`SB_KIT` overrides): makers in `real.py` and `parts/`,
 scenes built with `sbkit.py`, rendered by `blrender.py`.

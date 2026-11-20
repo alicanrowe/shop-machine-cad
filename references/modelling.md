@@ -40,6 +40,22 @@
 - A syringe listing with no drawing: scale it from a straight side photo using its printed graduations. Px per
   5 mL and the barrel's px width, with a 1.0 mm wall, solve pi/4 * ID^2 * pitch = 5000 mm^3 for ID.
 
+- Wires, leads and cables are parts like any other, and check_machine tests them (check 5). Each end has to go
+  INTO what it connects to: a screw terminal's mouth, a header pin a Dupont crimp slides over, a plug housing, a
+  solder pad, a gland. An end against a flat plate, or in the air above the head "where the host's connector
+  would be", fails. Model that connector (and the cable behind it) instead. Name parts by what they are, so the
+  check can tell a terminal from a plate (`... pins`, `... terminal`, `... plug`); add other contact parts to the
+  machine spec's `"wire_terminals"`. Leads in a bundle or ribbon need at least 0.3 mm between conductors after
+  the spline bends, or they read as passing through each other. A cable that really leaves the machine (to a
+  wall outlet) goes in `"wire_free_ends"` with why; not one that just stops out of sight. Better still, give it
+  somewhere real to end: a NEMA plug in a power strip or the IoT Relay's outlet (`iot_relay_plug()`), a C13 on
+  the inlet, a USB plug in a power bank. A jacket that ends inside an enclosure ends in its cord grip, gland or
+  grommet bore (the check accepts an end whose rim meets the bore wall). Give a bought part's factory leads
+  their plug with `lead_plug()` in the part maker, so every machine that uses the part inherits it.
+- Plan a cable's route against everything near it, scene parts too: a cord that drops to the bench through the
+  base plate, a lead that climbs back down its own stub, or two cords that cross on the table all fail check 5.
+  Pull an end at most 7 mm into the plug or terminal it enters: the check forgives only an 8 mm zone at each
+  end. Materials are render-palette names (`label_white`, not `white`): check_parts fails anything else.
 - Wires and leads: route them as straight segments with sphere joints, not splines; a spline bulges into neighbouring parts at tight bends (Drag Queen solenoid leads). Model every bought part from its listing before designing the printed parts around it: Drag Queen's old cradle was smaller than the real solenoid and its carriage ran off the rail at full stroke.
 - 2026-11-18 (Sandra Paper): for each axis, check what holds it on both sides and trace the drive from motor to carriage. V-wheels sitting on top of a rail bolted flat to the base, with no belt modelled, rendered fine and could not work. Lift rails on end feet when wheels must wrap them.
 - Give the workpiece (a seat frame, woven cord, a part being made) kind "work", not "scene", so check_machine tests it for collisions. Anything that turns must sit on the turning part; a rim-drive motor goes below the rim, with the rim in two layers so the pulley flanges clear (Cane-Dace, 2026-11-18).
@@ -50,3 +66,10 @@
   every part going into a heat source survives its temperature (printed plastics, magnets, adhesives).
 - Ribbed hoses: build the wall as straight segments between the ribs, not one spline sweep (tight-bend sweeps can take
   minutes to tessellate and stall a render export; the ribs hide the joints).
+- Replacing a stock toolhead: list what it carried besides the hotend (Z probe used for homing, adapter board, fans,
+  runout sensor path) and give each a new home or a firmware change. Then read the stock firmware's Configuration.h
+  for preheat presets, runout scripts, Z max and driver currents that the new head can't live with (2026-11-19,
+  Queen Bee).
+- Round sections that sit on the bed: sink them 0.5 mm before cutting at z=0 (a tangent cut can come back empty).
+  Make circular arcs with `revolve`, not `sweep` along a Spline, and check the volume against section area x arc
+  length. Export STLs with tolerance=0.03 (2026-11-19, Queen Bee).

@@ -5,6 +5,8 @@
 - Machine level: the bots' studio look (white prints, soft key/fill/rim/top, shadow catcher, AgX). Render each
   state and an exploded view. Compare against the listing photos of the big parts (does the printer, laser or
   supply look like the photo?) and against the machine's neighbours on the site.
+- Trace every wire in the render from one end to the other. It must leave a terminal, plug or pin and arrive at
+  another, without vanishing into a block or stopping in mid-air. The check catches this in the CAD, but look anyway.
 - Write down what's off, fix, re-render. Only renders that passed go to the site or to a person.
 - Render on cloud machines. Split big batches one piece per machine.
 

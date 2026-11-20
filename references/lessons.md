@@ -2,6 +2,23 @@
 
 Dated, newest first. Each is also written into the reference it belongs to.
 
+## 2026-11-19
+- Queen Bee pull pattern: cutting a swept round section with a box at the plane it just touches returned an empty
+  shape, and a `sweep` along a Spline gave a different volume for every point count. Sink round sections 0.5 mm into
+  the bed plane before cutting, build circular bows as a `revolve` (an exact torus segment), and check the volume
+  against a hand estimate. Also: `export_stl` at its default tolerance hangs on a swept solid; pass tolerance=0.03
+  (modelling.md).
+- Bog Witch audit (19 Nov): a CAD pass can be collision-free and still unbuildable. Check that every screw has a
+  hole in BOTH parts and in the laser DXF (the panels had none, the back's holes missed its brackets), that a
+  hinge is two parts on a pin (it was one block), and that the laser can cut the material (a 445 nm diode laser
+  can't cut clear acrylic: saw it and drill from a 1:1 SVG template). Firmware a guide names must exist and
+  compile: ESPHome YAML in a clean venv (`esphome config`, then `esphome compile`) took about 12 minutes.
+- Queen Bee audit: a head that replaces a printer's stock toolhead inherits everything that toolhead carried, not
+  just the hotend. The V3 SE homes Z with the CR Touch on the Sprite and routes every head wire through a board in
+  it. Read the printer's own firmware config before writing the guide: here the runout script (M600 would unload the
+  plunger), the 200/230 C preheat presets, Z max past the top bar, the 600 mA E current, and M302 (which M500 doesn't
+  save) all needed a fix (modelling.md).
+
 ## 2026-11-18
 - Dusty Springfield: four of ten picked listings didn't match their buy-list row (a single gate sold as a "3-pack", a
   "hose + fittings" row pointing at a vac adapter set, a "bucket with lid" row pointing at the lid only, a vac whose hose
@@ -117,3 +134,83 @@ Dated, newest first. Each is also written into the reference it belongs to.
   finished pose hid a servo hitting the lead screw at high X and a tray row out of reach. Then compare the dims
   bounding box with the base: a bought motor's flying leads 22 mm past the base edge made the overall width 422
   instead of 400; turning the motor so its leads ran over the base fixed it.
+
+- **Oven-heated parts (Skin Tight audit, 2026-11-19).** Model the sag: a heated sheet sags 25 to 30 mm, so it needs legs or standoffs that hold it above the rack wires by more than that. Then re-check the top: anything raised moves toward the upper element (keep 30 mm or more). Everything that goes in must be rated above the oven temperature, glue included: J-B Weld Original (287 C) and SmCo magnets (about 250 C) are fine. Wood glue, PETG (about 75 C), PLA (about 55 C) and neodymium (about 80 C) are not. A hot part should land on wood or metal, not a print.
+- **Laser holes don't press-fit.** Kerf varies, so a 11.9 mm laser hole on a 12 mm rod either won't go or won't hold. Draw 0.4 mm over and epoxy it, and use one of the laser parts as a squaring jig while the epoxy cures.
+- **Two mains appliances on one circuit.** Add up the amps (oven 9.6 A plus a shop vac) against 80% of 15 A. If they're over, write the sequence into the guide and the recipe card.
+- 2026-11-19 (moisture_madame build audit): model the wiring, not just the boards. A board placed with its header pins 1.5 mm from an enclosure wall, a USB port facing a floor with only vent slots, and an LED cavity closed against wood all passed check_machine but could not be wired. Leave about 22 mm behind header pins for soldered wires, put a hole over every USB port for the plug head (about 12 x 6.5 mm) plus about 45 mm for plug and bend, and give every cavity a wire exit. Also read the bracket drawing for screw holes before writing "screw it down" (body-scale cell brackets clip into a housing; glue them), and check green/blue LED Vf (3.0-3.2 V) before driving it from a 3.3 V GPIO.
+- 2026-11-19 (Lathe Minnelli build audit): check that a bearing pair is actually located axially. Seats that open toward each other with nothing clamping the inner rings leave the shaft free to slide. Open the seats outward, put the shoulders inboard, and clamp the inner rings from outside (pulley collar, back plate over a spacer). Make the shoulder's clearance hole bigger than the inner ring's land (6205: over 34.4) so it only touches the outer ring.
+- 2026-11-19: every "set screw in a printed hub" or "insert in a plate" needs the material to hold it. An M5 insert needs about 10 mm of hub length and wall, and an M3 insert about 6 mm of plate. Check each one against the part's real thickness, and give every printed part a way to be fastened (a foot, holes, a screw size).
+- 2026-11-19: Morse tapers differ per size. MT0 is 1:19.212 and MT1 is 1:20.047 (DIN 228).
+- 2026-11-19 (Vogue build audit): check that anything on a mast or arm can't tip. Sum the masses (camera, printed
+  parts, extrusion, foot) and their x positions, and keep the centre of mass inside the foot. Vogue's 100 mm foot had
+  the C920 169 mm out and tipped forward; the fix was a 215 mm foot running under the camera. Also count the solids in
+  every printed part: a carriage that looked whole was three pieces, with the clevis cheeks never touching the arm.
+- 2026-11-19 (Vogue): STEPPERONLINE 17HE15-1504S (B0B38GHRH8) drawing gives the 4-pin plug as BLK A+, GRN B+, BLU A-,
+  RED B-, with the coils interleaved. On a CNC shield or StepStick header, meter pins 1-2 (about 2.3 ohms if paired)
+  and swap the middle two wires if they read open.
+- 2026-11-19 (Pour Decisions): for anything shaken by an unbalanced motor on rubber mounts, work out the bounce
+  frequency for the EMPTY machine, fn = sqrt(k / m) / 2 pi, and keep it under motor speed / 1.4 (60 Hz motor: under
+  about 42 Hz). One 25 x 25 M8 mount per corner (about 100 N/mm each) put a 3.4 kg table at 55 Hz, right on the
+  motor; two stacked in series fixed it. Also read every photo of a mains motor's cord: the TOAUTO cord carries an
+  inline capacitor box that has to lie on the bench, not hang off the vibrating part. And plug-in "fan speed"
+  controllers may have a thermostat that switches the load off (iLIVING ILG8SFST: set it to BYPASS).
+- 2026-11-19 (Sandra Paper build audit): run the collision check at every corner of travel, not just the two
+  render poses. Give the bot env overrides for its moving axes (SP_GY/SP_XC) and run check_machine at the four
+  extremes. Sandra's pad hit both Y rails before reaching the panel edge, and its side-facing dust port crossed a
+  rail at a third of X travel; neither shows in the render poses. Also check that every screw can be reached in
+  build order (rail feet screwed down under the rail; clamp screws behind the ring), that bought cables actually
+  mate with the board's sockets (stepper leads often end in 2.54 Dupont, the DLC32 has XH), and that the firmware
+  you name can do what the wiring needs (FluidNC can gang Y onto the Z driver but can't drive the MKS TS24 screen).
+- **Cane-Dace build audit (19 Nov).** Check that sheet parts fit the sheet that is actually bought (a 317 mm disc
+  doesn't fit a 12 x 24 in sheet, and "24 in" sheets can be 603 mm), that slots don't run past the end of the part they
+  are cut in, and that the whole adjustable range (not just the rendered seat size) clears everything on the base.
+  For a lazy susan, model the top plate flat on top; its corner screws can only be driven from below, so the base
+  needs an access hole. Give every printed part its screw holes and captive-nut pockets, never "thread into PETG", and
+  replace printed axles under a sustained load with a steel bolt (creep). An external ring gear made of a belt glued
+  teeth-out on a disc only has about 3 teeth in mesh with a 20T pulley: add a lock if the user pulls on the work.
+- 2026-11-19 (Handmaiden build audit): on an arm, the HOME pose is a pose too. Check where every link sits at the
+  switch, and pick the homing order so no link sweeps through the column (Handmaiden's elbow home at +145 parked
+  link 2 in the rods; it homes to -145 first now, shoulder second, with link 1 pointed to the front). Give the bot a
+  pose override (HM_POSE="t1,t2,z") and run check_machine at home and the joint limits, then make the host's
+  keep-out refuse exactly the poses that collide. Also: a threaded bolt is not a bearing shaft (use a DIN 931 plain
+  shank, inner-race spacers and a nylock); count motor screw length against the 4.5 mm NEMA17 thread; and an
+  analog sensor or 5 V relays on a DLC32/FluidNC board need a small 5 V helper (a Nano pulling the probe pin low
+  is a clean way to get G38.2 "stop on grip").
+
+## Lady Liner build audit (19 Nov 2026)
+- A one-piece tool holder bolted to a linear block hides the block screws under the tool bore. Split it: a thin slide on the block (heads sunk, block thread depth respected), and a clamp body bolted to the slide.
+- "Lands under its own weight" needs lost motion: a slot for the pushrod's Z-bend, with the servo over-travelling a couple of mm. A rigid rod sets the height instead.
+- Don't press a printed rocker onto a metal servo spline. Use the servo's own horn and drill its holes for the wire.
+- For any swap or adapter plate, trace every screw from head to nut in assembly order. A nut that would sit against the machine's own plate needs a pocket in the adapter's back face.
+- Check rail hole positions against the shared maker's formula (MGN7 100: 7 holes at 5 + 15n), not a round-number guess.
+- Screws behind a part's ears or under a moving block: check a driver can reach each one in the order the guide gives.
+- Nano corner holes sit in line with the pin rows (plus/minus 7.62 x 20.3); the shop uses M1.6 self-tappers.
+
+- When making site/*.jpg from renders/*.png, composite the RGBA render onto white first (Image.new("RGB", size, "white").paste(im, mask=im.split()[3])). A plain convert("RGB") turns the transparent background black.
+
+- (Mud Diva build audit, 2026-11-19) A helix `sweep` (sbkit `auger`) can fail to boolean-fuse with other solids and the
+  `+` quietly returns only the auger: the hub vanished from the part, its STL and the collision check. After any `+`
+  with a swept or lofted solid, check the part's bbox (or `len(shape.solids())`) against what you expect. Fix: keep the
+  pieces as `Compound([...])` (slicers merge overlapping shells) and avoid coincident cylinder faces between them.
+- Build audits: a screw-driven paste ram must not put the screw in the material or rely on O-ring friction to stop the
+  piston turning. Fix the nut in the cap, push the piston through a thrust bearing, and anti-rotate the riding motor.
+- Hot Flash audit: an IEC C14 inlet is a 10 A part (even branded Schurter DD11 is UL 10 A), so a load near 10 A needs a hard-wired 14 AWG cord and UL 16 A panel fuse holders (Eaton HTB-28M) instead. Digi-Key product pages read fine through WebFetch when Amazon has no trustworthy listing.
+- Hot Flash audit: heat-set inserts need a boss, column or floor at least as deep as the insert; a 3 mm printed wall takes bolts and nuts, not inserts. A "clamp" that is just a hole the cord passes through grips nothing: use a screwed saddle.
+- Hot Flash audit: the spline in bent_tube overshoots at sharp corners and can dip wires into floors or neighbours; add short lead-in points at each corner (`_lead` in bots/hot_flash.py).
+- 2026-11-19, PC-in-a-cart audit: a stand-in "Z790 board" from a model site put the GPU in the wrong slot, the CPU 35 mm off and the pump inside the board. Rebuild a bought board from the maker's top-view photo by mapping pixel coordinates through the known ATX hole positions (piecewise-linear in each axis), then place every dependent part (GPU slot, socket centre, DIMMs, cooler stack height) from that map, not from the stand-in. Many boards put the steel x16 slot in expansion slot 2, 20.32 mm below slot 1.
+- 2026-11-19, clash checks on merged GLBs: per-node meshes from a GLB are rarely watertight, and a boolean intersection of non-watertight meshes silently returns zero, so the check reads "clear" while parts overlap. Group nodes by part, weld vertices (trimesh `merge_vertices` with merged UVs and normals, 4-digit rounding), split into watertight bodies and skip any that still aren't, and prove the checker on a known clash before trusting a pass. Strip textures before loading big scenes or the checker runs out of memory.
+- 2026-11-19, fitting bought-part models into a scene: when a model is scaled to fill a placeholder envelope exactly, its back face lands exactly on whatever the placeholder rested on and the clash check finds a 0.004 mm overlap. Leave 0.05 mm on the resting axis.
+- 2026-11-19, panel parts sourcing: relegendable keys (printed cap with a pocket, paper legend, 1 mm clear window held by crush ribs) read as a real product and can be relabelled; turned 6061 knobs with knurled flutes, an engraved pointer, black anodise and an M3 set screw on a D shaft read as real where printed knobs don't. Check fader cap width against slider pitch on the buy list: caps as wide as the pitch touch.
+- 2026-11-19 (Dusty Springfield audit): a current clamp round a whole tool cord reads zero (hot and neutral cancel); budget a line splitter per tool, and check its body size (Klein 69409 is 119 mm square) before planning a row of them. Panel jacks need thread through the wall for the nut: a 4.5 mm M6 bushing in a 4 mm printed floor leaves 0.5 mm, so counterbore. ESP32 GPIO 14 pulses at boot; keep servos off it.
+- 2026-11-20 (Lady Liner, spotted by a person in the render): the buck's 24 V, GND and PWM leads ended in mid-air
+  above the head, where the host laser's cable "would be", and crossed through each other. check_machine passed
+  because a wire grouped with its board counted as touching, and the floating check is per group. The host's own
+  motor cable also started in mid-air beside the frame and stopped 5 mm short of the motor's plug. check_machine
+  now has a wire check: each end must go into a part (or touch a pin, terminal, plug or pad), and no wire may pass
+  through any part, its own group included, or through another wire, outside an 8 mm end zone. Wires no longer
+  count as support for the floating check. The fix was to model the XH plug pair and the laser cable back to the
+  controller. Running the new check over all 24 Dancers found the same fault in most of them: motor, servo,
+  load-cell, fan and heater leads stopping in mid-air (fixed once in the part makers with plugs), mains cords
+  ending beside the outlet instead of in a plug, a mist-maker lead and a probe cable through their own guard or
+  grommet, cords crossing on the bench, and a printer's head cable through its base and the new toolhead.
