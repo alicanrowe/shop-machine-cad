@@ -55,4 +55,4 @@ scenes built with `sbkit.py`, rendered by `blrender.py`.
 When a check misses something a person spots, add the lesson to `references/lessons.md` (dated) and, if a
 script could have caught it, to the script. No private data: no names, emails, home paths, unpublished prices.
 
-**Design taste.** How a page, render or piece looks is judged against the shared `design-taste` skill (`./your-project`): read its principles and banned moves, and score visual work with its rubric before showing it. When the client critiques how anything looks, log the exact words in its `critique-log.md` in the same session, distil them into its principles or rubric, and publish it with `_publish/sync.sh design-taste`.
+**Design taste.** How a page, render or piece looks is judged against the shared `design-taste` skill (`../design-taste/` next to this skill): read its principles and banned moves, and score visual work with its rubric before showing it. When the client critiques how anything looks, log the exact words in its `critique-log.md` in the same session, distil them into its principles or rubric, and publish it with `_publish/sync.sh design-taste`.
