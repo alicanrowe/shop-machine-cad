@@ -7,6 +7,11 @@
   supply look like the photo?) and against the machine's neighbours on the site.
 - Trace every wire in the render from one end to the other. It must leave a terminal, plug or pin and arrive at
   another, without vanishing into a block or stopping in mid-air. The check catches this in the CAD, but look anyway.
+- Backgrounds are white unless the owner asked for another. The PNGs are transparent (film_transparent), which is
+  right for compositing, but every JPEG export or plain RGB convert turns that black: flatten with `on_white()` and
+  run `scripts/check_backgrounds.py` on the files that go out. 21 Nov 2026: all 24 Dancers went live on black because
+  the page builder switched from site/*.jpg to renders/*.png and used convert("RGB"); the lesson was already in
+  lessons.md, so the check is now a required step, not a note.
 - Write down what's off, fix, re-render. Only renders that passed go to the site or to a person.
 - Render on cloud machines. Split big batches one piece per machine.
 

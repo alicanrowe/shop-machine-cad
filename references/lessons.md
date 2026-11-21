@@ -187,6 +187,7 @@ Dated, newest first. Each is also written into the reference it belongs to.
 - Screws behind a part's ears or under a moving block: check a driver can reach each one in the order the guide gives.
 - Nano corner holes sit in line with the pin rows (plus/minus 7.62 x 20.3); the shop uses M1.6 self-tappers.
 
+- (21 Nov: this note alone did not stop it; see renders.md and `scripts/check_backgrounds.py`, now a required step.)
 - When making site/*.jpg from renders/*.png, composite the RGBA render onto white first (Image.new("RGB", size, "white").paste(im, mask=im.split()[3])). A plain convert("RGB") turns the transparent background black.
 
 - (Mud Diva build audit, 2026-11-19) A helix `sweep` (sbkit `auger`) can fail to boolean-fuse with other solids and the

@@ -36,7 +36,10 @@ The loop, per machine:
    against the listing photos and the machine's neighbours on the site. Only passing renders go out.
    Animations and big jobs go to GarageFarm through the `render-farm` skill (github.com/alicanrowe/render-farm), which uploads and submits without anyone clicking renderBeamer.
 8. **Hand off** to the site (website-publishing skill): renders, the parts table with listing links and
-   photos, and the numbers you checked.
+   photos, and the numbers you checked. Renders come out transparent: anything made from them (site JPEGs,
+   pairs, crops, teasers, sheets) is flattened onto white with `on_white()` (in `scripts/check_backgrounds.py`),
+   never a plain `convert("RGB")`, which turns the background black. Then
+   `scripts/check_backgrounds.py <every output dir>` must show 0 FAIL. White unless the owner asked otherwise.
 
 ## Scripts (in `scripts/`)
 | Script | Does |
@@ -46,6 +49,7 @@ The loop, per machine:
 | `listing_sheet.py` | Contact sheet of a listing's photos, to find the drawing |
 | `check_parts.py` | Part vs spec: overall and per-item sizes, palette materials, sources recorded |
 | `look_sheet.py` | Part render beside its listing photo, with the check results |
+| `check_backgrounds.py` | Every exported image sits on white: fails black (or, with `--opaque`, transparent) backgrounds; `--changed <repo>` checks a site branch's new images; `on_white()` flattens a render safely |
 | `check_machine.py` | Buy-list coverage, part specs, collisions, floating parts, wire ends and wire clashes (`--wires-only` for a quick re-run) |
 
 The kit paths default to your shop-bot kit (`SB_KIT` overrides): makers in `real.py` and `parts/`,
