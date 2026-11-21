@@ -55,6 +55,16 @@ The loop, per machine:
 The kit paths default to your shop-bot kit (`SB_KIT` overrides): makers in `real.py` and `parts/`,
 scenes built with `sbkit.py`, rendered by `blrender.py`.
 
+## Excuses that don't count
+Each of these is a shortcut that ends in a broken result. If you catch yourself thinking the left column, do the right column.
+
+| The excuse | What to do instead |
+|---|---|
+| "I know roughly how big that motor is" | Model each bought part to its listing's own drawing and photos. |
+| "The parts fit in my head" | Run the interference/clipping check on the full assembly. |
+| "The background will be fine" | Flatten onto white and run `scripts/check_backgrounds.py`. |
+| "While I'm in here I'll also tidy/refactor this other bit" | Change only what the task needs. Smallest diff that works; no new options, helpers or files nobody asked for. Note other ideas for later instead. |
+
 ## Keep this skill improving
 When a check misses something a person spots, add the lesson to `references/lessons.md` (dated) and, if a
 script could have caught it, to the script. No private data: no names, emails, home paths, unpublished prices.
