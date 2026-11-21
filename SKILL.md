@@ -63,6 +63,7 @@ Each of these is a shortcut that ends in a broken result. If you catch yourself 
 | "I know roughly how big that motor is" | Model each bought part to its listing's own drawing and photos. |
 | "The parts fit in my head" | Run the interference/clipping check on the full assembly. |
 | "The background will be fine" | Flatten onto white and run `scripts/check_backgrounds.py`. |
+| "The fetched product page says it's 42 mm" | Web-fetch tools hand back a short summary and can drop spec-table rows. Read the full listing or datasheet as text (a Firecrawl scrape, e.g. Composio's `FIRECRAWL_SCRAPE`, public pages only), and model from the numbers as written there, with the URL noted. |
 | "While I'm in here I'll also tidy/refactor this other bit" | Change only what the task needs. Smallest diff that works; no new options, helpers or files nobody asked for. Note other ideas for later instead. |
 
 ## Keep this skill improving
