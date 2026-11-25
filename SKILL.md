@@ -44,7 +44,7 @@ The loop, per machine:
 ## Naming and copy
 A machine is "it" in every README, recipe, build guide and page: never "she" or "her", and never framed as a
 person who serves (the owner, 25 Nov 2026, renaming the old group because it read as subservient robots made women).
-The owner's set is The Hive (formerly The Dancers); machine names like Queen Bee stay.
+The owner's set is Hivemind (formerly The Dancers): Queen Bee plus 23 bee and hive names with no gender (never "worker" or "drone").
 
 ## Scripts (in `scripts/`)
 | Script | Does |
