@@ -41,6 +41,11 @@ The loop, per machine:
    never a plain `convert("RGB")`, which turns the background black. Then
    `scripts/check_backgrounds.py <every output dir>` must show 0 FAIL. White unless the owner asked otherwise.
 
+## Naming and copy
+A machine is "it" in every README, recipe, build guide and page: never "she" or "her", and never framed as a
+person who serves (the owner, 25 Nov 2026, renaming the old group because it read as subservient robots made women).
+The owner's set is The Hive (formerly The Dancers); machine names like Queen Bee stay.
+
 ## Scripts (in `scripts/`)
 | Script | Does |
 |---|---|
