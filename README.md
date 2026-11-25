@@ -1,3 +1,5 @@
+![Shop machine CAD: Small machines, robots and jigs modelled so every bought part matches its real listing.](.github/banner.png)
+
 # Shop machine CAD
 
 A Claude skill for modelling small machines, robots and jigs built from bought parts (motors, rails,
