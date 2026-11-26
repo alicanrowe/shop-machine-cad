@@ -215,3 +215,11 @@ Dated, newest first. Each is also written into the reference it belongs to.
   load-cell, fan and heater leads stopping in mid-air (fixed once in the part makers with plugs), mains cords
   ending beside the outlet instead of in a plug, a mist-maker lead and a probe cable through their own guard or
   grommet, cords crossing on the bench, and a printer's head cable through its base and the new toolhead.
+- 2026-11-26 (chisel sharpening revolver): build123d `Plane(x_dir=(1,0,0), z_dir=(0,1,0))` maps the sketch's local
+  y to world -Z, so a profile drawn "upward" extruded downward and six nested guide wedges overlapped by 20,000 mm³.
+  Print one sketch point through the plane before trusting a profile; `x_dir=(-1,0,0)` with the same z_dir keeps
+  local y as +Z. Also: a pairwise clip check over a scene with bought parts drowns in false hits from a part's own
+  pieces (motor body against its shaft). Name pieces `"<part tag>|<piece>"` and skip pairs with the same tag, then
+  every remaining hit is real. A guide that has to match a commercial honing guide can be fitted from the maker's
+  published projection-vs-angle table alone: solve for the roller centre that gives each row's angle (3/4 in roller,
+  17.54 mm behind and 15.63 mm below the chisel back matched Lie-Nielsen's table within 0.66°).
